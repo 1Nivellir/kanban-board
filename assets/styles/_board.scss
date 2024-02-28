@@ -1,0 +1,77 @@
+.board__wrapper {
+	min-height: 95vh;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	column-gap: 40px;
+	align-items: start;
+}
+.board__item {
+	background-color: rgb(60, 60, 60);
+	min-height: max-content;
+	max-width: 100%;
+	display: grid;
+	grid-template-columns: 1fr;
+	row-gap: 10px;
+}
+.board__card-title {
+	margin: 0;
+	color: #fff;
+	padding: 10px 15px;
+	font-family: sans-serif;
+}
+.board {
+	&__card-title-holds {
+		background-color: rgb(201, 130, 0);
+	}
+	&__card-title-progress {
+		background-color: rgb(40, 40, 224);
+	}
+	&__card-title-review {
+		background-color: rgb(212, 215, 2);
+	}
+	&__card-title-approved {
+		background-color: rgb(0, 128, 0);
+	}
+	&__btn {
+		background-color: transparent;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border: none;
+		color: grey;
+		font-size: 20px;
+		padding: 10px 10px;
+		text-align: start;
+		transition: background-color 0.3s ease-in-out;
+
+		&:hover {
+			background-color: rgb(26, 26, 26);
+		}
+	}
+	&__textarea {
+		background-color: transparent;
+		padding: 0;
+		padding: 10px;
+		color: #fff;
+		font-size: 16px;
+		resize: none;
+		width: 100%;
+		border-radius: 0.2rem;
+		border: none;
+		transition: background-color 0.3s ease-in-out;
+		&:focus {
+			outline: none;
+			background-color: #595858;
+		}
+	}
+	&__form {
+		width: calc(100% - 40px);
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	&__card {
+		padding: 10px;
+		min-height: 90px;
+		background-color: rgb(26, 26, 26);
+	}
+}

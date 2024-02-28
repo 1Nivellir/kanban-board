@@ -15,12 +15,20 @@ const useCreate = useCreateToken()
 const createUser = useCreateUser()
 
 onMounted(() => {
+	const token = localStorage.getItem('authToken')
+	if (!token) {
+		router.push('/')
+	} else {
+		store.setToken(token)
+		router.push('/board')
+	}
 	watch(
 		() => useCreate.value.token,
 		(newToken) => {
 			if (newToken !== '') {
 				router.push('/board')
 				store.setToken(newToken)
+				localStorage.setItem('authToken', newToken)
 			}
 		}
 	)

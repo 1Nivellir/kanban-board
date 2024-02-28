@@ -2,7 +2,7 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	css: ['assets/styles/style.css'],
 
-	modules: ['nuxt-socket-io', '@pinia/nuxt'],
+	modules: ['nuxt-socket-io', '@pinia/nuxt', 'nuxt-icon'],
 	io: {
 		sockets: [
 			{
