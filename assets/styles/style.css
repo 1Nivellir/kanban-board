@@ -1,9 +1,8 @@
 .board__wrapper {
-  min-height: 95vh;
+  min-height: 100vh;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  -moz-column-gap: 40px;
-       column-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
   align-items: start;
 }
 
@@ -72,10 +71,49 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+.board__cards-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .board__card {
+  position: relative;
+  color: #fff;
+  font-size: 20px;
   padding: 10px;
   min-height: 90px;
   background-color: rgb(26, 26, 26);
+}
+.board__btn-delete {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  border-bottom: 2px solid rgb(60, 60, 60);
+  background: #523333;
+}
+.header__title {
+  margin: 0;
+  color: #fff;
+  font-size: 30px;
+}
+.header__btn {
+  cursor: pointer;
+  padding: 10px;
+  padding: 0;
+  background: transparent;
+  border: none;
 }
 
 html {
@@ -87,6 +125,9 @@ html {
 .container {
   max-width: 1440px;
   margin: 0 auto;
+  padding-top: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .default__layout {

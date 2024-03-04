@@ -1,3 +1,4 @@
+import { useDeleteCard } from '#imports'
 import { defineStore } from 'pinia'
 import { useCreateCard } from '~/composables/CreateCard'
 import { useGetCards } from '~/composables/GetCards'
@@ -21,6 +22,15 @@ export const useMyCardsStore = defineStore({
 		async updateCard(data: Card, token: string) {
 			const card = await useUpdateCard(token, data)
 			this.cards = this.cards.map((c) => (c.id === card.id ? card : c))
+		},
+		async deleteCard(cardId: number, token: string) {
+			const status = await useDeleteCard(cardId, token)
+			if (status === 204) {
+				this.cards = this.cards.filter((c) => c.id !== cardId)
+			}
+		},
+		logout() {
+			this.cards = []
 		},
 	},
 })

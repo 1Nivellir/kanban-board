@@ -16,5 +16,9 @@ export const useMyUserStore = defineStore({
 			if (token instanceof Error) return
 			this.token = token
 		},
+		logout() {
+			this.user = null
+			this.token = null
+		},
 	},
 })

@@ -1,6 +1,8 @@
 import axios from 'axios'
+import { URL_API } from '~/config'
+
 export const useCreateUser = () => {
-	const url = 'https://trello.backend.tests.nekidaem.ru/api/v1/users/create/'
+	const url = `${URL_API}users/create/`
 	let user = {}
 	const createUser = async (user: any) => {
 		const { data } = await axios.post(url, user, {

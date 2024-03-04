@@ -1,21 +1,20 @@
 import axios, { AxiosError } from 'axios'
 import { URL_API } from '~/config'
-import type { Card } from '../types/types'
-export const useGetCards = async (
+import type { Card } from '~/types/types'
+export const useDeleteCard = async (
+	cardId: number,
 	token: string
-): Promise<Card[] | AxiosError> => {
+): Promise<number | AxiosError> => {
 	const url = `${URL_API}cards/`
 	try {
-		const response = await axios.get(url, {
+		const response = await axios.delete(url + cardId, {
 			headers: {
 				Authorization: `JWT ${token}`,
 				'Content-Type': 'application/json',
 			},
 		})
-		console.log(response)
-		return response.data
+		return response.status
 	} catch (error: any) {
-		console.log(error)
 		return error
 	}
 }

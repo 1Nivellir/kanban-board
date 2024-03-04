@@ -44,9 +44,20 @@ const showCardForm = ref(Array(listArray.length).fill(false))
 const toggleCardForm = (index: number) => {
 	showCardForm.value[index] = !showCardForm.value[index]
 }
+
+const deleteCard = async (id: number) => {
+	const token = useMyUserStore().getToken
+	if (!token) return
+	await cardStore.deleteCard(id, token)
+}
+const getLength = (row: string) => {
+	const card = cards.value.filter((card) => card.row === row)
+	return card.length
+}
 </script>
 
 <template>
+	<TheHeader />
 	<div class="container">
 		<div class="board__wrapper board">
 			<div
@@ -56,7 +67,9 @@ const toggleCardForm = (index: number) => {
 				@dragover="handleDragOver"
 				@drop="(event) => handleDrop(event, item.row)"
 			>
-				<h2 :class="item.classTitle">{{ item.name }} (0)</h2>
+				<h2 :class="item.classTitle">
+					{{ item.name }} ({{ getLength(item.row) }})
+				</h2>
 				<form
 					v-if="showCardForm[index]"
 					class="board__form"
@@ -72,6 +85,7 @@ const toggleCardForm = (index: number) => {
 					<button type="submit">Click</button>
 				</form>
 				<div
+					class="board__cards-wrapper"
 					v-for="card in cards"
 					:key="card.row"
 					v-show="card.row === item.row"
@@ -82,6 +96,13 @@ const toggleCardForm = (index: number) => {
 						@dragstart="(event) => handleDragStart(event, card)"
 					>
 						{{ card.text }}
+
+						<button
+							@click.prevent="deleteCard(card.id)"
+							class="board__btn-delete"
+						>
+							<Icon name="material-symbols:close-small" size="28" />
+						</button>
 					</div>
 				</div>
 				<button class="board__btn" @click="toggleCardForm(index)">
