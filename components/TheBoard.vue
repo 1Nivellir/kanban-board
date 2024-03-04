@@ -1,48 +1,43 @@
 <script lang="ts" setup>
+import { useMyCardsStore } from '#imports'
 import { listArray } from '@/helpers/dataWrapper'
-interface Card {
-	id: number
-	row: string
-	name: string
-	// Add other properties as needed
-}
-const cards = ref<Card[]>([
-	{
-		id: 1,
-		row: '1',
-		name: 'Привет',
-	},
-	{
-		id: 2,
-		row: '2',
-		name: 'Hi',
-	},
-])
-const cardsArray = computed(() => cards.value)
+import type { Card } from '~/types/types'
+
+const cards = computed(() => useMyCardsStore().cards)
+const cardStore = useMyCardsStore()
 const text = ref('')
-const addEvent = (deta, index) => {
-	console.log('work')
+const addEvent = async (col: string, index: number) => {
+	const token = useMyUserStore().getToken
 	const data = {
-		row: deta,
-		name: text.value,
+		row: col,
+		text: text.value,
 	}
-	cards.value.push(data)
+	if (!token) return
+	await useMyCardsStore().createCard(data, token)
 	toggleCardForm(index)
 }
+onMounted(async () => {
+	const token = useMyUserStore().getToken
+	if (!token) return
+	await cardStore.getCards(token)
+})
 const handleDragOver = (event: DragEvent) => {
 	event.preventDefault()
-	console.log(cards.value)
 }
 const handleDragStart = (event: DragEvent, card: Card) => {
-	if (event.dataTransfer) event.dataTransfer.setData('text/plain', card.id)
+	const id = card.id.toString()
+	if (event.dataTransfer) event.dataTransfer.setData('text/plain', id)
 }
 
-const handleDrop = (event: DragEvent, row: string) => {
+const handleDrop = async (event: DragEvent, row: string) => {
 	if (!event.dataTransfer) return
+	const token = useMyUserStore().getToken
 	const cardId = event.dataTransfer.getData('text/plain')
 	const card = cards.value.find((card) => card.id === parseInt(cardId))
 	if (card) {
 		card.row = row
+		if (!token) return
+		await cardStore.updateCard(card, token)
 	}
 }
 const showCardForm = ref(Array(listArray.length).fill(false))
@@ -77,7 +72,7 @@ const toggleCardForm = (index: number) => {
 					<button type="submit">Click</button>
 				</form>
 				<div
-					v-for="card in cardsArray"
+					v-for="card in cards"
 					:key="card.row"
 					v-show="card.row === item.row"
 				>
@@ -86,7 +81,7 @@ const toggleCardForm = (index: number) => {
 						class="board__card"
 						@dragstart="(event) => handleDragStart(event, card)"
 					>
-						{{ card.name }}
+						{{ card.text }}
 					</div>
 				</div>
 				<button class="board__btn" @click="toggleCardForm(index)">

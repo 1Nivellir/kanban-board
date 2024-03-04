@@ -1,16 +1,18 @@
-import axios from 'axios'
-export const useCreateToken = () => {
+import axios, { AxiosError } from 'axios'
+export const useCreateToken = async (
+	user: any
+): Promise<string | AxiosError> => {
 	const url = 'https://trello.backend.tests.nekidaem.ru/api/v1/users/token/'
-	let token = ref('')
-	const createToken = async (user: any) => {
-		const { data } = await axios.post(url, user, {
+	try {
+		const response = await axios.post(url, user, {
 			headers: {
 				Authorization: `Bearer`,
 				'Content-Type': 'application/json',
 			},
 		})
-		token.value = await data.access
-		console.log(token)
+		return response.data.access
+	} catch (error: any) {
+		console.log(error)
+		return error
 	}
-	return ref({ createToken, token })
 }

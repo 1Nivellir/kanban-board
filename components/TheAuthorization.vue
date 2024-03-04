@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useMyUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import { useCreateToken } from '../composables/CreateToken'
 import { useCreateUser } from '../composables/CreateUser'
 const router = useRouter()
 const store = useMyUserStore()
@@ -11,28 +10,16 @@ const user = ref({
 	email: '',
 	password: '',
 })
-const useCreate = useCreateToken()
 const createUser = useCreateUser()
 
-onMounted(() => {
-	const token = localStorage.getItem('authToken')
-	if (!token) {
-		router.push('/')
-	} else {
-		store.setToken(token)
-		router.push('/board')
-	}
-	watch(
-		() => useCreate.value.token,
-		(newToken) => {
-			if (newToken !== '') {
-				router.push('/board')
-				store.setToken(newToken)
-				localStorage.setItem('authToken', newToken)
-			}
+watch(
+	() => store.getToken,
+	(newToken) => {
+		if (newToken !== '') {
+			router.push('/board')
 		}
-	)
-})
+	}
+)
 </script>
 <template>
 	<div class="container">
@@ -71,7 +58,7 @@ onMounted(() => {
 
 			<form
 				class="auth__form form"
-				@submit.prevent="useCreate.createToken(user)"
+				@submit.prevent="store.setToken(user)"
 				v-if="showForm"
 			>
 				<input

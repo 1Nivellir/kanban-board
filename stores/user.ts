@@ -1,8 +1,8 @@
+import { useCreateToken } from '#imports'
 import { defineStore } from 'pinia'
-
 export const useMyUserStore = defineStore({
 	id: 'myUserStore',
-	state: () => ({ user: null, token: null }),
+	state: () => ({ user: null, token: null as string | null }),
 	getters: {
 		getUser: (state) => state.user,
 		getToken: (state) => state.token,
@@ -11,7 +11,9 @@ export const useMyUserStore = defineStore({
 		setUser(user: any) {
 			this.user = user
 		},
-		setToken(token: any) {
+		async setToken(user: any) {
+			const token = await useCreateToken(user)
+			if (token instanceof Error) return
 			this.token = token
 		},
 	},
