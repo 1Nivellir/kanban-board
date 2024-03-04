@@ -11,6 +11,7 @@ export const useCreateToken = async (
 				'Content-Type': 'application/json',
 			},
 		})
+		console.log(response.data)
 		return response.data.access
 	} catch (error: any) {
 		console.log(error)

@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { useMyCardsStore } from '#imports'
 import { listArray } from '@/helpers/dataWrapper'
+import { useMyUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 import type { Card } from '~/types/types'
 
 const cards = computed(() => useMyCardsStore().cards)
+const router = useRouter()
 const cardStore = useMyCardsStore()
+const userStore = useMyUserStore()
 const text = ref('')
 const addEvent = async (col: string, index: number) => {
 	const token = useMyUserStore().getToken
@@ -17,10 +21,23 @@ const addEvent = async (col: string, index: number) => {
 	toggleCardForm(index)
 }
 onMounted(async () => {
-	const token = useMyUserStore().getToken
-	if (!token) return
-	await cardStore.getCards(token)
+	let token = userStore.getToken
+	if (token) {
+		await cardStore.getCards(token)
+	} else {
+		const tokenLs = localStorage.getItem('token')
+		if (!tokenLs) return
+		userStore.createToken(tokenLs)
+		await cardStore.getCards(tokenLs)
+	}
 })
+watch(
+	() => cardStore.getError.length > 0,
+	(newError) => {
+		localStorage.removeItem('token')
+		router.push('/')
+	}
+)
 const handleDragOver = (event: DragEvent) => {
 	event.preventDefault()
 }
@@ -78,11 +95,12 @@ const getLength = (row: string) => {
 					<textarea
 						name=""
 						id=""
-						rows="10"
+						rows="7"
+						placeholder="Введите заголовок карточки для этой карточки"
 						class="board__textarea"
 						v-model="text"
 					></textarea>
-					<button type="submit">Click</button>
+					<button type="submit" class="board__submit">Добавить карточку</button>
 				</form>
 				<div
 					class="board__cards-wrapper"

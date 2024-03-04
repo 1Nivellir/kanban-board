@@ -8,12 +8,19 @@ export const useMyCardsStore = defineStore({
 	id: 'myCardsStore',
 	state: () => ({
 		cards: [] as Card[],
+		errors: [] as string[],
 	}),
+	getters: {
+		getError: (state) => state.errors,
+	},
 	actions: {
 		async getCards(token: string) {
 			const cards = await useGetCards(token)
-			if (cards instanceof Error) return
-			this.cards = cards
+			if (typeof cards === 'string') {
+				this.errors.push(cards)
+			} else {
+				this.cards = cards
+			}
 		},
 		async createCard(data: CreateCard, token: string) {
 			const card = await useCreateCard(data, token)
@@ -21,7 +28,11 @@ export const useMyCardsStore = defineStore({
 		},
 		async updateCard(data: Card, token: string) {
 			const card = await useUpdateCard(token, data)
-			this.cards = this.cards.map((c) => (c.id === card.id ? card : c))
+			if (typeof card === 'string') {
+				this.errors.push(card)
+			} else {
+				this.cards = this.cards.map((c) => (c.id === card.id ? card : c))
+			}
 		},
 		async deleteCard(cardId: number, token: string) {
 			const status = await useDeleteCard(cardId, token)

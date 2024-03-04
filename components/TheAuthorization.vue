@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { useMyUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useCreateUser } from '../composables/CreateUser'
 const router = useRouter()
+
 const store = useMyUserStore()
+const cardsStore = useMyCardsStore()
 const showForm = ref(false)
 const user = ref({
 	username: '',
@@ -12,6 +13,16 @@ const user = ref({
 })
 const createUser = useCreateUser()
 
+const errors = computed(() => cardsStore.getError)
+
+onMounted(async () => {
+	const token = localStorage.getItem('token')
+	if (token) {
+		store.createToken(token)
+		await useMyCardsStore().getCards(token)
+		router.push('/board')
+	}
+})
 watch(
 	() => store.getToken,
 	(newToken) => {
@@ -24,6 +35,7 @@ watch(
 <template>
 	<div class="container">
 		<div class="form__wrapper">
+			<TheErrors :error="errors" />
 			<form
 				class="auth__form form"
 				@submit.prevent="createUser.createUser(user)"

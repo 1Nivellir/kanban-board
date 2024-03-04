@@ -1,10 +1,10 @@
 import axios from 'axios'
-import type { Card } from '~/types/types'
 import { URL_API } from '~/config'
+import type { Card } from '~/types/types'
 export const useUpdateCard = async (
 	token: string,
 	data: Card
-): Promise<Card> => {
+): Promise<Card | string> => {
 	const url = `${URL_API}cards/${data.id}/`
 	try {
 		const response = await axios.patch(url, data, {
@@ -16,7 +16,9 @@ export const useUpdateCard = async (
 		console.log(response.data)
 		return response.data
 	} catch (error: any) {
-		console.log(error)
+		if (error.response.status === 401) {
+			return 'Авторизуйтесь пожалуйста заново'
+		}
 		return error
 	}
 }
