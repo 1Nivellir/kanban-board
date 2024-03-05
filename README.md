@@ -1,75 +1,36 @@
-# Nuxt 3 Minimal Starter
+# Kanban доска, аналог trello.com
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Этот проект представляет собой веб-приложение для управления задачами и проектами с использованием Kanban доски. Приложение позволяет пользователям создавать, обновлять и удалять карточки на доске, а также аутентифицироваться и выходить из системы.
 
-## Setup
+## Технологии
 
-Make sure to install the dependencies:
+- **Nuxt 3**: Используется для создания современного веб-приложения.
+- **Vue 3**: Используется для создания интерактивных пользовательских интерфейсов.
+- **Pinia**: Используется для управления состоянием приложения.
+- **Axios**: Используется для выполнения HTTP-запросов к API.
+- **Vue Router**: Используется для маршрутизации в приложении.
+- **Sass**: Используется для стилизации, расположен в директории `assets/styles`.
 
-```bash
-# npm
-npm install
+## Установка и запуск
 
-# pnpm
-pnpm install
+1. Установите зависимости:
+   Этот проект представляет собой веб-приложение для управления задачами и проектами с использованием Kanban доски. Приложение позволяет пользователям создавать, обновлять и удалять карточки на доске, а также аутентифицироваться и выходить из системы.
 
-# yarn
-yarn install
+## Технологии
 
-# bun
-bun install
-```
+- **Nuxt 3**: Используется для создания современного веб-приложения.
+- **Vue 3**: Используется для создания интерактивных пользовательских интерфейсов.
+- **Pinia**: Используется для управления состоянием приложения.
+- **Axios**: Используется для выполнения HTTP-запросов к API.
+- **Sсss**: Используется для стилизации, расположен в директории `assets/styles`.
 
-## Development Server
+## Установка и запуск
 
-Start the development server on `http://localhost:3000`:
+1. Установите зависимости: npm install
+2. Запустите сервер разработки: npm run dev
+3. Посетите `http://localhost:3000` в вашем браузере.
 
-```bash
-# npm
-npm run dev
+## Сборка и развертывание
 
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. Сборка приложения для продакшена: npm run build
+2. Предварительный просмотр сборки: npm run preview
