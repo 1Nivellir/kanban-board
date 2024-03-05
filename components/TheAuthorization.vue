@@ -13,7 +13,7 @@ const user = ref({
 })
 const createUser = useCreateUser()
 
-const errors = computed(() => cardsStore.getError)
+const errors = computed(() => store.getError)
 
 onMounted(async () => {
 	const token = localStorage.getItem('token')

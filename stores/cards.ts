@@ -8,16 +8,21 @@ export const useMyCardsStore = defineStore({
 	id: 'myCardsStore',
 	state: () => ({
 		cards: [] as Card[],
-		errors: [] as string[],
+		errorsCards: [] as string[],
+		burger: false,
 	}),
 	getters: {
-		getError: (state) => state.errors,
+		getErrorsCards: (state) => state.errorsCards,
+		getBurger: (state) => state.burger,
 	},
 	actions: {
+		toggleBurger() {
+			this.burger = !this.burger
+		},
 		async getCards(token: string) {
 			const cards = await useGetCards(token)
-			if (typeof cards === 'string') {
-				this.errors.push(cards)
+			if (cards instanceof Error) {
+				this.errorsCards = [cards.message]
 			} else {
 				this.cards = cards
 			}
@@ -29,7 +34,7 @@ export const useMyCardsStore = defineStore({
 		async updateCard(data: Card, token: string) {
 			const card = await useUpdateCard(token, data)
 			if (card instanceof Error) {
-				this.errors = [card.message]
+				this.errorsCards = [card.message]
 			} else {
 				this.cards = this.cards.map((c) => (c.id === card.id ? card : c))
 			}
@@ -42,7 +47,7 @@ export const useMyCardsStore = defineStore({
 		},
 		logout() {
 			this.cards = []
-			this.errors = []
+			this.burger = false
 		},
 	},
 })

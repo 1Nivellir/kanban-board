@@ -5,9 +5,11 @@ export const useMyUserStore = defineStore({
 	state: () => ({
 		token: null as string | null,
 		refreshToken: null as string | null,
+		errors: [] as string[],
 	}),
 	getters: {
 		getToken: (state) => state.token,
+		getError: (state) => state.errors,
 	},
 	actions: {
 		createToken(token: string) {
@@ -22,13 +24,17 @@ export const useMyUserStore = defineStore({
 		async setToken(user: any) {
 			const token = await useCreateToken(user)
 			console.log(token)
-			if (token instanceof Error) {
+			if (token instanceof Error || typeof token === 'string') {
+				if (typeof token === 'string') {
+					this.errors = [token]
+				}
 				const refresh = localStorage.getItem('refreshToken')
 				if (!refresh) return
 				const newRequest = await useRefreshToken(refresh)
 				this.token = newRequest
 				localStorage.setItem('token', newRequest)
 			} else {
+				this.errors = []
 				this.token = token.access
 				this.refreshToken = token.refresh
 				localStorage.setItem('refreshToken', token.refresh)

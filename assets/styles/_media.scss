@@ -1,0 +1,10 @@
+@media (max-width: 992px) {
+	.header {
+		&__btn-open {
+			display: block;
+		}
+		&__btn-media {
+			display: none;
+		}
+	}
+}

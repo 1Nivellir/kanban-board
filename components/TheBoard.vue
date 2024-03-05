@@ -2,22 +2,20 @@
 import { useMyCardsStore } from '#imports'
 import { listArray } from '@/helpers/dataWrapper'
 import { useMyUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
 import type { Card } from '~/types/types'
 
-const cards = computed(() => useMyCardsStore().cards)
-const router = useRouter()
 const cardStore = useMyCardsStore()
 const userStore = useMyUserStore()
+const cards = computed(() => cardStore.cards)
 const text = ref('')
 const addEvent = async (col: string, index: number) => {
-	const token = useMyUserStore().getToken
+	const token = userStore.getToken
 	const data = {
 		row: col,
 		text: text.value,
 	}
 	if (!token) return
-	await useMyCardsStore().createCard(data, token)
+	await cardStore.createCard(data, token)
 	toggleCardForm(index)
 	text.value = ''
 }
@@ -33,14 +31,11 @@ onMounted(async () => {
 	}
 })
 watch(
-	() => cardStore.getError.length > 0,
+	() => cardStore.getErrorsCards.length > 0,
 	async (newError) => {
 		const newToken = localStorage.getItem('refreshToken')
 		if (!newToken) return
 		await userStore.refresh(newToken)
-
-		// localStorage.removeItem('token')
-		// router.push('/')
 	}
 )
 watch(
@@ -60,7 +55,7 @@ const handleDragStart = (event: DragEvent, card: Card) => {
 
 const handleDrop = async (event: DragEvent, row: string) => {
 	if (!event.dataTransfer) return
-	const token = useMyUserStore().getToken
+	const token = userStore.getToken
 	const cardId = event.dataTransfer.getData('text/plain')
 	const card = cards.value.find((card) => card.id === parseInt(cardId))
 	if (card) {
@@ -75,7 +70,7 @@ const toggleCardForm = (index: number) => {
 }
 
 const deleteCard = async (id: number) => {
-	const token = useMyUserStore().getToken
+	const token = userStore.getToken
 	if (!token) return
 	await cardStore.deleteCard(id, token)
 }
@@ -83,10 +78,15 @@ const getLength = (row: string) => {
 	const card = cards.value.filter((card) => card.row === row)
 	return card.length
 }
+const burger = computed(() => cardStore.burger)
+const errors = computed(() => cardStore.getErrorsCards)
 </script>
 
 <template>
 	<TheHeader />
+
+	<TheBurger v-if="burger" />
+	<TheErrors :error="errors" />
 	<div class="container">
 		<div class="board__wrapper board">
 			<div
@@ -142,7 +142,11 @@ const getLength = (row: string) => {
 						</button>
 					</div>
 				</div>
-				<button class="board__btn" @click="toggleCardForm(index)">
+				<button
+					class="board__btn"
+					v-if="!showCardForm[index]"
+					@click.prevent="toggleCardForm(index)"
+				>
 					<Icon name="tdesign:add" size="28" />Добавить карточку
 				</button>
 			</div>
