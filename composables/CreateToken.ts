@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import { URL_API } from '~/config'
+import type { Token } from '~/types/types'
 export const useCreateToken = async (
 	user: any
-): Promise<string | AxiosError> => {
+): Promise<Token | AxiosError> => {
 	const url = `${URL_API}users/token/`
 	try {
 		const response = await axios.post(url, user, {
@@ -12,9 +13,8 @@ export const useCreateToken = async (
 			},
 		})
 		console.log(response.data)
-		return response.data.access
+		return response.data
 	} catch (error: any) {
-		console.log(error)
 		return error
 	}
 }

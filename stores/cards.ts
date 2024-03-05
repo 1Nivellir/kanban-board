@@ -28,8 +28,8 @@ export const useMyCardsStore = defineStore({
 		},
 		async updateCard(data: Card, token: string) {
 			const card = await useUpdateCard(token, data)
-			if (typeof card === 'string') {
-				this.errors.push(card)
+			if (card instanceof Error) {
+				this.errors = [card.message]
 			} else {
 				this.cards = this.cards.map((c) => (c.id === card.id ? card : c))
 			}
@@ -42,6 +42,7 @@ export const useMyCardsStore = defineStore({
 		},
 		logout() {
 			this.cards = []
+			this.errors = []
 		},
 	},
 })

@@ -51,6 +51,7 @@
   background-color: rgb(26, 26, 26);
 }
 .board__textarea {
+  margin-bottom: 5px;
   background-color: transparent;
   padding: 0;
   padding: 10px;
@@ -85,6 +86,7 @@
   padding-right: 10px;
 }
 .board__card {
+  cursor: move;
   position: relative;
   color: #fff;
   font-size: 20px;
@@ -103,6 +105,32 @@
   color: #fff;
   font-family: sans-serif;
   font-size: 14px;
+}
+.board__wrapper-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.board__submit {
+  cursor: pointer;
+  background-color: #595858;
+  color: #a2a2a2;
+  border: none;
+  font-size: 18px;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #d6d6d6;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+.board__submit:hover {
+  background-color: #000;
+  color: #fff;
+}
+.board__close {
+  cursor: pointer;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
 }
 
 .header {

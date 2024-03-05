@@ -49,6 +49,7 @@
 		}
 	}
 	&__textarea {
+		margin-bottom: 5px;
 		background-color: transparent;
 		padding: 0;
 		padding: 10px;
@@ -79,6 +80,7 @@
 		padding-right: 10px;
 	}
 	&__card {
+		cursor: move;
 		position: relative;
 		color: #fff;
 		font-size: 20px;
@@ -97,5 +99,32 @@
 		color: #fff;
 		font-family: sans-serif;
 		font-size: 14px;
+	}
+	&__wrapper-btn {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+	}
+	&__submit {
+		cursor: pointer;
+		background-color: #595858;
+		color: #a2a2a2;
+		border: none;
+		font-size: 18px;
+		border-radius: 3px;
+		padding: 10px 30px;
+		color: #d6d6d6;
+		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+		&:hover {
+			background-color: #000;
+			color: #fff;
+		}
+	}
+	&__close {
+		cursor: pointer;
+		border: none;
+		padding: 5px;
+		background-color: transparent;
 	}
 }

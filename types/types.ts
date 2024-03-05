@@ -6,3 +6,8 @@ export type Card = {
 }
 
 export type CreateCard = Omit<Card, 'id' | 'seq_num'>
+
+export interface Token {
+	access: string
+	refresh: string
+}

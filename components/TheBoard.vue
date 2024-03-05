@@ -19,6 +19,7 @@ const addEvent = async (col: string, index: number) => {
 	if (!token) return
 	await useMyCardsStore().createCard(data, token)
 	toggleCardForm(index)
+	text.value = ''
 }
 onMounted(async () => {
 	let token = userStore.getToken
@@ -33,9 +34,20 @@ onMounted(async () => {
 })
 watch(
 	() => cardStore.getError.length > 0,
-	(newError) => {
-		localStorage.removeItem('token')
-		router.push('/')
+	async (newError) => {
+		const newToken = localStorage.getItem('refreshToken')
+		if (!newToken) return
+		await userStore.refresh(newToken)
+
+		// localStorage.removeItem('token')
+		// router.push('/')
+	}
+)
+watch(
+	() => userStore.getToken,
+	(newToken) => {
+		if (!newToken) return
+		cardStore.getCards(newToken)
 	}
 )
 const handleDragOver = (event: DragEvent) => {
@@ -100,7 +112,14 @@ const getLength = (row: string) => {
 						class="board__textarea"
 						v-model="text"
 					></textarea>
-					<button type="submit" class="board__submit">Добавить карточку</button>
+					<div class="board__wrapper-btn">
+						<button type="submit" class="board__submit">
+							Добавить карточку
+						</button>
+						<button @click.prevent="toggleCardForm(index)" class="board__close">
+							<Icon name="ic:outline-close" size="28" color="#a2a2a2" />
+						</button>
+					</div>
 				</form>
 				<div
 					class="board__cards-wrapper"
