@@ -32,6 +32,16 @@ html {
 	grid-template-columns: 1fr;
 	row-gap: 25px;
 }
+.form__title {
+	margin: 0;
+	font-size: 24px;
+	color: #fff;
+}
+.form__request {
+	margin: 0;
+	color: #fff;
+	font-size: 18px;
+}
 .form__input {
 	border-radius: 0.5rem;
 	min-height: 35px;

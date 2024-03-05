@@ -11,3 +11,10 @@ export interface Token {
 	access: string
 	refresh: string
 }
+export type User = {
+	username: string
+	email: string
+	password: string
+}
+
+export type CreateUser = Omit<User, 'password'>

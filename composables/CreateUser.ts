@@ -1,17 +1,21 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { URL_API } from '~/config'
+import type { User, CreateUser } from '~/types/types'
 
-export const useCreateUser = () => {
+export const useCreateUser = async (
+	user: User
+): Promise<CreateUser | AxiosError> => {
 	const url = `${URL_API}users/create/`
-	let user = {}
-	const createUser = async (user: any) => {
-		const { data } = await axios.post(url, user, {
+
+	try {
+		const response = await axios.post(url, user, {
 			headers: {
 				Authorization: `Bearer`,
 				'Content-Type': 'application/json',
 			},
 		})
-		user = await data
+		return response.data
+	} catch (error: any) {
+		return error
 	}
-	return ref({ createUser, user })
 }

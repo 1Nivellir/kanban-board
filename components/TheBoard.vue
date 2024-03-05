@@ -84,8 +84,9 @@ const errors = computed(() => cardStore.getErrorsCards)
 
 <template>
 	<TheHeader />
-
-	<TheBurger v-if="burger" />
+	<Transition name="burger" mode="out-in">
+		<TheBurger v-if="burger" />
+	</Transition>
 	<TheErrors :error="errors" />
 	<div class="container">
 		<div class="board__wrapper board">

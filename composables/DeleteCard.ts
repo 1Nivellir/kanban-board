@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 import { URL_API } from '~/config'
-import type { Card } from '~/types/types'
 export const useDeleteCard = async (
 	cardId: number,
 	token: string

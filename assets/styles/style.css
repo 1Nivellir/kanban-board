@@ -36,6 +36,18 @@ html {
   row-gap: 25px;
 }
 
+.form__title {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+
+.form__request {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+}
+
 .form__input {
   border-radius: 0.5rem;
   min-height: 35px;
@@ -312,7 +324,18 @@ html {
   padding: 30px;
   height: calc(100vh - 141px);
   display: flex;
-  align-items: end;
+  align-items: flex-end;
+}
+
+.burger-enter-active,
+.burger-leave-active {
+  transition: all 0.4s;
+}
+
+.burger-enter-from,
+.burger-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
 }
 
 @media (max-width: 992px) {

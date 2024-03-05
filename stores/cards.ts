@@ -24,6 +24,7 @@ export const useMyCardsStore = defineStore({
 			if (cards instanceof Error) {
 				this.errorsCards = [cards.message]
 			} else {
+				this.errorsCards = []
 				this.cards = cards
 			}
 		},

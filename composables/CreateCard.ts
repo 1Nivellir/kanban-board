@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { URL_API } from '~/config'
 import type { CreateCard } from '~/types/types'
 export const useCreateCard = async (data: CreateCard, token: string) => {
-	const url = 'https://trello.backend.tests.nekidaem.ru/api/v1/cards/'
+	const url = `${URL_API}cards/`
 	const card = {
 		row: data.row,
 		text: data.text,

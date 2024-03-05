@@ -1,5 +1,7 @@
 import { useCreateToken } from '#imports'
 import { defineStore } from 'pinia'
+import type { User } from '~/types/types'
+
 export const useMyUserStore = defineStore({
 	id: 'myUserStore',
 	state: () => ({
@@ -21,7 +23,7 @@ export const useMyUserStore = defineStore({
 			this.token = newRequest
 			localStorage.setItem('token', newRequest)
 		},
-		async setToken(user: any) {
+		async setToken(user: User) {
 			const token = await useCreateToken(user)
 			console.log(token)
 			if (token instanceof Error || typeof token === 'string') {
