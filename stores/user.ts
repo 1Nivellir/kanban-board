@@ -25,7 +25,6 @@ export const useMyUserStore = defineStore({
 		},
 		async setToken(user: User) {
 			const token = await useCreateToken(user)
-			console.log(token)
 			if (token instanceof Error || typeof token === 'string') {
 				if (typeof token === 'string') {
 					this.errors = [token]

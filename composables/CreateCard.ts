@@ -14,10 +14,8 @@ export const useCreateCard = async (data: CreateCard, token: string) => {
 				'Content-Type': 'application/json',
 			},
 		})
-		console.log(response.data)
 		return response.data
 	} catch (error: any) {
-		console.log(error)
 		return new Error(error)
 	}
 }
